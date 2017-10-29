@@ -5,30 +5,29 @@ require './lib/move_player.cgi';
 require "$datadir/skill.cgi";
 my $this_script = 'admin.cgi';
 #=================================================
-# ƒvƒŒƒCƒ„[ŠÇ— Created by Merino
+# ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç®¡ç† Created by Merino
 #=================================================
 
-# •À‚Ñ‡–¼
+# ä¸¦ã³é †å
 my %e2j_sorts = (
-	country	=> '‘‡',
-	name	=> '–¼‘O‡',
-	ldate	=> 'XV“ú‡',
-	addr	=> 'Î½Ä–¼/IP‡',
-	agent	=> 'UA(ÌŞ×³»Ş)',
-	check	=> '‘½dÁª¯¸',
-	player	=> 'ƒvƒŒƒCƒ„[Áª¯¸',
+	country	=> 'å›½é †',
+	name	=> 'åå‰é †',
+	ldate	=> 'æ›´æ–°æ—¥æ™‚é †',
+	addr	=> 'ï¾ï½½ï¾„å/IPé †',
+	agent	=> 'UA(ï¾Œï¾ï¾—ï½³ï½»ï¾)',
+	check	=> 'å¤šé‡ï¾ï½ªï½¯ï½¸',
+	player	=> 'ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ï¾ï½ªï½¯ï½¸',
 );
 
-# ÃŞÌ«ÙÄ‚Ì•À‚Ñ‡
+# ï¾ƒï¾ï¾Œï½«ï¾™ï¾„ã®ä¸¦ã³é †
 $in{sort} ||= 'addr';
 
-
 #=================================================
-# ƒƒCƒ“ˆ—
+# ãƒ¡ã‚¤ãƒ³å‡¦ç†
 #=================================================
 &header;
 &decode;
-&error('Êß½Ü°ÄŞ‚ªˆá‚¢‚Ü‚·') unless $in{pass} eq $admin_pass;
+&error('ï¾Šï¾Ÿï½½ï¾œï½°ï¾„ï¾ãŒé•ã„ã¾ã™') unless $in{pass} eq $admin_pass;
 &read_cs;
 
 if    ($in{mode} eq 'admin_delete_user') { &admin_delete_user; }
@@ -69,16 +68,16 @@ exit;
 # top
 #=================================================
 sub top {
-	print qq|<form action="$script_index"><input type="submit" value="‚s‚n‚o" class="button1"></form>|;
+	print qq|<form action="$script_index"><input type="submit" value="ï¼´ï¼¯ï¼°" class="button1"></form>|;
 	
 	print qq|<form method="$method" action="admin_country.cgi">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<input type="submit" value="‘ŠÇ—" class="button1">|;
+	print qq|<input type="submit" value="å›½ç®¡ç†" class="button1">|;
 	print qq|</form>|;
 	
 	print qq|<table border="0"><tr>|;
 	print qq|<td><form method="$method" action="$this_script"><input type="hidden" name="country" value=""><input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<input type="hidden" name="sort" value="$in{sort}"><input type="submit" value="‘SÕ°»Ş°" class="button_s"></form></td>|;
+	print qq|<input type="hidden" name="sort" value="$in{sort}"><input type="submit" value="å…¨ï¾•ï½°ï½»ï¾ï½°" class="button_s"></form></td>|;
 	for my $i (0 .. $w{country}) {
 		print qq|<td><form method="$method" action="$this_script"><input type="hidden" name="country" value="$i"><input type="hidden" name="pass" value="$in{pass}">|;
 		print qq|<input type="hidden" name="sort" value="$in{sort}"><input type="submit" value="$cs{name}[$i]" class="button_s"></form></td>|;
@@ -92,22 +91,22 @@ sub top {
 	}
 	print qq|</tr></table>|;
 	
-	print qq|<a href="#util">‹@”\\‚Ö</a>|;
+	print qq|<a href="#util">æ©Ÿèƒ½\ã¸</a>|;
 	
 	print qq|<div class="mes">$mes</div><br>| if $mes;
 	
 	print qq|<form method="$method" action="$this_script">|;
 	print qq|<input type="hidden" name="mode" value="admin_delete_user"><input type="hidden" name="pass" value="$in{pass}">|;
 	print qq|<input type="hidden" name="country" value="$in{country}"><input type="hidden" name="sort" value="$in{sort}">|;
-	print qq|Ø¾¯Ä‚ÍA‰æ–Ê‚É‰½‚à•\\¦‚³‚ê‚È‚­‚È‚Á‚½‚èANextƒ‹[ƒv‚É‚Í‚Ü‚Á‚½ó‘Ô‚ğC³‚µ‚Ü‚·B<br>|;
+	print qq|ï¾˜ï½¾ï½¯ï¾„ã¯ã€ç”»é¢ã«ä½•ã‚‚è¡¨\ç¤ºã•ã‚Œãªããªã£ãŸã‚Šã€Nextãƒ«ãƒ¼ãƒ—ã«ã¯ã¾ã£ãŸçŠ¶æ…‹ã‚’ä¿®æ­£ã—ã¾ã™ã€‚<br>|;
 	print qq|<table class="table1"><tr>|;
 
-	for my $k (qw/íœ Û¸Ş²İ ‘qŒÉ ¤l‚Ì“X ‹âsÛ¸Ş –¼‘O Ì«ÙÀŞ Ø¾¯Ä –³Š‘®‚Ö ‘ IP±ÄŞÚ½ Î½Ä–¼ UserAgent(ÌŞ×³»Ş) XVŠÔ ±¸¾½Áª¯¸/) {
+	for my $k (qw/å‰Šé™¤ ï¾›ï½¸ï¾ï½²ï¾ å€‰åº« å•†äººã®åº— éŠ€è¡Œï¾›ï½¸ï¾ åå‰ ï¾Œï½«ï¾™ï¾€ï¾ ï¾˜ï½¾ï½¯ï¾„ ç„¡æ‰€å±ã¸ å›½ IPï½±ï¾„ï¾ï¾šï½½ ï¾ï½½ï¾„å UserAgent(ï¾Œï¾ï¾—ï½³ï½»ï¾) æ›´æ–°æ™‚é–“ ï½±ï½¸ï½¾ï½½ï¾ï½ªï½¯ï½¸/) {
 		print qq|<th>$k</th>|;
 	}
 	print qq|</tr>|;
 	
-	# ƒvƒŒƒCƒ„[î•ñ‚ğæ“¾
+	# ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æƒ…å ±ã‚’å–å¾—
 	my @lines = $in{country} eq '' ? &get_all_users : &get_country_users($in{country});
 
 	my $b_addr  = '';
@@ -119,35 +118,35 @@ sub top {
 	for my $line (@lines) {
 		my($id, $name, $pass, $country, $addr, $host, $agent, $ldate) = split /<>/, $line;
 
-		# ‚à‚µƒzƒXƒg–¼‚ª“¯‚¶‚È‚çÔ•\¦
+		# ã‚‚ã—ãƒ›ã‚¹ãƒˆåãŒåŒã˜ãªã‚‰èµ¤è¡¨ç¤º
 		if ( ($host !~ /admin_login/ && $addr eq $b_addr && $host eq $b_host && $agent eq $b_agent)
 			|| ($agent eq $b_agent && ($agent =~ /DoCoMo/ || $agent =~ /KDDI|UP\.Browser/ || $agent =~ /J-PHONE|Vodafone|SoftBank/)) ) {
 				unless ($is_duplicated) {
 					my($pid, $pname, $ppass, $pcountry, $paddr, $phost, $pagent, $pldate) = split /<>/, $pre_line;
 					print qq|<tr class="stripe2">|;
 					print qq|<td><input type="checkbox" name="delete" value="$pid"></td>|;
-					print qq|<td><input type="button" class="button_s" value="Û¸Ş²İ" onClick="location.href='$script?id=$pid&pass=$ppass';"></td>|;
-					print qq|<td><input type="button" class="button_s" value="‘qŒÉ" onClick="location.href='?mode=admin_get_depot_data&pass=$in{pass}&id=$pid&name=$pname';"></td>|;
+					print qq|<td><input type="button" class="button_s" value="ï¾›ï½¸ï¾ï½²ï¾" onClick="location.href='$script?id=$pid&pass=$ppass';"></td>|;
+					print qq|<td><input type="button" class="button_s" value="å€‰åº«" onClick="location.href='?mode=admin_get_depot_data&pass=$in{pass}&id=$pid&name=$pname';"></td>|;
 					print qq|<td>|;
 					if (-f "$userdir/$pid/shop_sale_detail.cgi") {
-						print qq|<input type="button" class="button_s" value="¤l‚Ì“X" onClick="location.href='?mode=admin_get_akindo_data&pass=$in{pass}&id=$pid&name=$pname';">|;
+						print qq|<input type="button" class="button_s" value="å•†äººã®åº—" onClick="location.href='?mode=admin_get_akindo_data&pass=$in{pass}&id=$pid&name=$pname';">|;
 					}
 					print qq|</td>|;
 					print qq|<td>|;
 					if (-f "$userdir/$pid/shop_bank_log.cgi") {
-						print qq|<input type="button" class="button_s" value="‹âsÛ¸Ş" onClick="location.href='?mode=admin_get_bank_log&pass=$in{pass}&id=$pid&name=$pname';">|;
+						print qq|<input type="button" class="button_s" value="éŠ€è¡Œï¾›ï½¸ï¾" onClick="location.href='?mode=admin_get_bank_log&pass=$in{pass}&id=$pid&name=$pname';">|;
 					}
 					print qq|</td>|;
 					print qq|<td>$pname</td>|;
 					print qq|<td>$pid</td>|;
-					print qq|<td><input type="button" class="button_s" value="Ø¾¯Ä" onClick="location.href='?mode=admin_refresh&pass=$in{pass}&id=$pid&country=$pcountry&sort=$in{sort}';"></td>|;
-					print qq|<td><input type="button" class="button_s" value="–³Š‘®‚Ö" onClick="location.href='?mode=admin_go_neverland&pass=$in{pass}&id=$pid&country=$pcountry&sort=$in{sort}';"></td>|;
+					print qq|<td><input type="button" class="button_s" value="ï¾˜ï½¾ï½¯ï¾„" onClick="location.href='?mode=admin_refresh&pass=$in{pass}&id=$pid&country=$pcountry&sort=$in{sort}';"></td>|;
+					print qq|<td><input type="button" class="button_s" value="ç„¡æ‰€å±ã¸" onClick="location.href='?mode=admin_go_neverland&pass=$in{pass}&id=$pid&country=$pcountry&sort=$in{sort}';"></td>|;
 					print qq|<td>$cs{name}[$pcountry]</td>|;
 					print qq|<td>$paddr</td>|;
 					print qq|<td>$phost</td>|;
 					print qq|<td>$pagent</td>|;
 					print qq|<td>$pldate</td>|;
-					print qq|<td><input type="button" class="button_s" value="±¸¾½Áª¯¸" onClick="location.href='?sort=player&checkid=$id&pass=$in{pass}';"></td></tr>|;
+					print qq|<td><input type="button" class="button_s" value="ï½±ï½¸ï½¾ï½½ï¾ï½ªï½¯ï½¸" onClick="location.href='?sort=player&checkid=$id&pass=$in{pass}';"></td></tr>|;
 				}
 				print qq|<tr class="stripe2">|;
 				$is_duplicated = 1;
@@ -164,58 +163,58 @@ sub top {
 		
 		if ($in{sort} ne 'check' || $is_duplicated) {
 			print qq|<td><input type="checkbox" name="delete" value="$id"></td>|;
-			print qq|<td><input type="button" class="button_s" value="Û¸Ş²İ" onClick="location.href='$script?id=$id&pass=$pass';"></td>|;
-			print qq|<td><input type="button" class="button_s" value="‘qŒÉ" onClick="location.href='?mode=admin_get_depot_data&pass=$in{pass}&id=$id&name=$name';"></td>|;
+			print qq|<td><input type="button" class="button_s" value="ï¾›ï½¸ï¾ï½²ï¾" onClick="location.href='$script?id=$id&pass=$pass';"></td>|;
+			print qq|<td><input type="button" class="button_s" value="å€‰åº«" onClick="location.href='?mode=admin_get_depot_data&pass=$in{pass}&id=$id&name=$name';"></td>|;
 			print qq|<td>|;
 			if (-f "$userdir/$id/shop_sale_detail.cgi") {
-				print qq|<input type="button" class="button_s" value="¤l‚Ì“X" onClick="location.href='?mode=admin_get_akindo_data&pass=$in{pass}&id=$id&name=$name';">|;
+				print qq|<input type="button" class="button_s" value="å•†äººã®åº—" onClick="location.href='?mode=admin_get_akindo_data&pass=$in{pass}&id=$id&name=$name';">|;
 			}
 			print qq|</td>|;
 			print qq|<td>|;
 			if (-f "$userdir/$id/shop_bank_log.cgi") {
-				print qq|<input type="button" class="button_s" value="‹âsÛ¸Ş" onClick="location.href='?mode=admin_get_bank_log&pass=$in{pass}&id=$id&name=$pname';">|;
+				print qq|<input type="button" class="button_s" value="éŠ€è¡Œï¾›ï½¸ï¾" onClick="location.href='?mode=admin_get_bank_log&pass=$in{pass}&id=$id&name=$pname';">|;
 			}
 			print qq|</td>|;
 			print qq|<td>$name</td>|;
 			print qq|<td>$id</td>|;
-			print qq|<td><input type="button" class="button_s" value="Ø¾¯Ä" onClick="location.href='?mode=admin_refresh&pass=$in{pass}&id=$id&country=$in{country}&sort=$in{sort}';"></td>|;
-			print qq|<td><input type="button" class="button_s" value="–³Š‘®‚Ö" onClick="location.href='?mode=admin_go_neverland&pass=$in{pass}&id=$id&country=$in{country}&sort=$in{sort}';"></td>|;
+			print qq|<td><input type="button" class="button_s" value="ï¾˜ï½¾ï½¯ï¾„" onClick="location.href='?mode=admin_refresh&pass=$in{pass}&id=$id&country=$in{country}&sort=$in{sort}';"></td>|;
+			print qq|<td><input type="button" class="button_s" value="ç„¡æ‰€å±ã¸" onClick="location.href='?mode=admin_go_neverland&pass=$in{pass}&id=$id&country=$in{country}&sort=$in{sort}';"></td>|;
 			print qq|<td>$cs{name}[$country]</td>|;
 			print qq|<td>$addr</td>|;
 			print qq|<td>$host</td>|;
 			print qq|<td>$agent</td>|;
 			print qq|<td>$ldate</td>|;
-			print qq|<td><input type="button" class="button_s" value="±¸¾½Áª¯¸" onClick="location.href='?sort=player&checkid=$id&pass=$in{pass}';"></td></tr>|;
+			print qq|<td><input type="button" class="button_s" value="ï½±ï½¸ï½¾ï½½ï¾ï½ªï½¯ï½¸" onClick="location.href='?sort=player&checkid=$id&pass=$in{pass}';"></td></tr>|;
 		}
 		
 		$pre_line = $line;
 	}
 	print qq|</table><br>|;
-	print qq|<input type="radio" name="is_delete" value="delete">íœ|;
-	print qq| <input type="checkbox" name="is_add_deny" value="1">“o˜^‹Ö~IP/UA‚É’Ç‰Á<br>|;
-	print qq|<input type="radio" name="is_delete" value="exile" checked="checked">‘ŠO’Ç•ú(3“úS‘©)|;
-	print qq|<p style="color: #F00">ƒvƒŒƒCƒ„[‚ğíœ/’Ç•ú‚·‚é<br><input type="submit" value="ˆ—" class="button_s"></p></form>|;
+	print qq|<input type="radio" name="is_delete" value="delete">å‰Šé™¤|;
+	print qq| <input type="checkbox" name="is_add_deny" value="1">ç™»éŒ²ç¦æ­¢IP/UAã«è¿½åŠ <br>|;
+	print qq|<input type="radio" name="is_delete" value="exile" checked="checked">å›½å¤–è¿½æ”¾(3æ—¥æ‹˜æŸ)|;
+	print qq|<p style="color: #F00">ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å‰Šé™¤/è¿½æ”¾ã™ã‚‹<br><input type="submit" value="å‡¦ç†" class="button_s"></p></form>|;
 
 	print qq|<a name="util"></a>|;
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">ƒf[ƒ^•â³FˆÈ‰º‚Ìó‘Ô‚É‚È‚Á‚½‚Ég—p<ul>|;
-	print qq|<li>ÀÛ‚Ì“o˜^l”‚ªˆá‚¤|;
-	print qq|<li>‘ƒƒ“ƒo[‚Éˆá‚¤‘‚Ìl‚ª“ü‚Á‚Ä‚é|;
-	print qq|<li>‘ƒƒ“ƒo[‚É“¯‚¶–¼‘O‚Ìl‚ª‚¢‚é|;
-	print qq|<li>‘ƒƒ“ƒo[‚ÉƒvƒŒƒCƒ„[ˆê——‚É‚Í‘¶İ‚µ‚È‚¢l‚ª‚¢‚é|;
+	print qq|<div class="mes">ãƒ‡ãƒ¼ã‚¿è£œæ­£ï¼šä»¥ä¸‹ã®çŠ¶æ…‹ã«ãªã£ãŸæ™‚ã«ä½¿ç”¨<ul>|;
+	print qq|<li>å®Ÿéš›ã®ç™»éŒ²äººæ•°ãŒé•ã†|;
+	print qq|<li>å›½ãƒ¡ãƒ³ãƒãƒ¼ã«é•ã†å›½ã®äººãŒå…¥ã£ã¦ã‚‹|;
+	print qq|<li>å›½ãƒ¡ãƒ³ãƒãƒ¼ã«åŒã˜åå‰ã®äººãŒã„ã‚‹|;
+	print qq|<li>å›½ãƒ¡ãƒ³ãƒãƒ¼ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ä¸€è¦§ã«ã¯å­˜åœ¨ã—ãªã„äººãŒã„ã‚‹|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_repaire">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ƒf[ƒ^•â³" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ãƒ‡ãƒ¼ã‚¿è£œæ­£" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">ƒoƒO•ñV<ul>|;
-	print qq|<form method="$method" action="$this_script"><p>‘—MæF<input type="text" name="send_name" class="text_box1"></p><input type="hidden" name="mode" value="bug_prize">|;
+	print qq|<div class="mes">ãƒã‚°å ±é…¬<ul>|;
+	print qq|<form method="$method" action="$this_script"><p>é€ä¿¡å…ˆï¼š<input type="text" name="send_name" class="text_box1"></p><input type="hidden" name="mode" value="bug_prize">|;
 	my @prizes = (
-		['›z‰»–²',	'2_3_999_0'],
-		['›z‰»H',	'2_2_999_0'],
-		['“¤',	'3_62_0_0'],
-		['¶ŞÌŞ',	'3_21_0_0'],
-		['À¸Ğ',		'3_183_0_0'],
+		['å­µåŒ–å¤¢',	'2_3_999_0'],
+		['å­µåŒ–ï¼Ÿ',	'2_2_999_0'],
+		['è±†',	'3_62_0_0'],
+		['ï½¶ï¾ï¾Œï¾',	'3_21_0_0'],
+		['ï¾€ï½¸ï¾',		'3_183_0_0'],
 	);
 	print qq|<select name="prize" class="menu1">|;
 	for my $pz (@prizes) {
@@ -223,171 +222,171 @@ sub top {
 	}
 	print qq|</select>|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ƒoƒO•ñV" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ãƒã‚°å ±é…¬" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">–§—AŠÄ‹FˆÈ‰º‚Ìó‘Ô‚É‚È‚Á‚½‚Ég—p<ul>|;
-	print qq|<li>•¡C–§—A‹^˜f‚Ì‚ ‚éƒvƒŒƒCƒ„[‚ª‚¢‚éê‡‚ÉƒWƒƒƒ“ƒNƒVƒ‡ƒbƒv‚ÌƒƒO‚ğQÆ‚µ‚Ü‚·|;
+	print qq|<div class="mes">å¯†è¼¸ç›£è¦–ï¼šä»¥ä¸‹ã®çŠ¶æ…‹ã«ãªã£ãŸæ™‚ã«ä½¿ç”¨<ul>|;
+	print qq|<li>è¤‡å¢å¯†è¼¸ç–‘æƒ‘ã®ã‚ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹å ´åˆã«ã‚¸ãƒ£ãƒ³ã‚¯ã‚·ãƒ§ãƒƒãƒ—ã®ãƒ­ã‚°ã‚’å‚ç…§ã—ã¾ã™|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="junk_sub">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="–§—AŠÄ‹" class="button_s"></p>|;
-	print qq|<input type="radio" name="j_del" value="0">‰{——|;
-	print qq|<input type="radio" name="j_del" value="1" checked>ƒƒOíœ</form>|;
-	print qq|<li>ƒWƒƒƒ“ƒNƒVƒ‡ƒbƒv‚Ì’†g‚ğŠm”F‚µ‚Ü‚·|;
+	print qq|<p><input type="submit" value="å¯†è¼¸ç›£è¦–" class="button_s"></p>|;
+	print qq|<input type="radio" name="j_del" value="0">é–²è¦§|;
+	print qq|<input type="radio" name="j_del" value="1" checked>ãƒ­ã‚°å‰Šé™¤</form>|;
+	print qq|<li>ã‚¸ãƒ£ãƒ³ã‚¯ã‚·ãƒ§ãƒƒãƒ—ã®ä¸­èº«ã‚’ç¢ºèªã—ã¾ã™|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="junk_show">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="‰{——" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="é–²è¦§" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">C”äŠrF“ñ‚Â‚ÌC‚ÌƒƒOƒCƒ“ó‹µ‚ğ”äŠr‚·‚é<ul>|;
-	print qq|<li>•¡C‹^˜f‚Ì‚ ‚éƒvƒŒƒCƒ„[‚ª‚¢‚éê‡”äŠr‚µ‚Ü‚·|;
+	print qq|<div class="mes">å¢æ¯”è¼ƒï¼šäºŒã¤ã®å¢ã®ãƒ­ã‚°ã‚¤ãƒ³çŠ¶æ³ã‚’æ¯”è¼ƒã™ã‚‹<ul>|;
+	print qq|<li>è¤‡å¢ç–‘æƒ‘ã®ã‚ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹å ´åˆæ¯”è¼ƒã—ã¾ã™|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_compare">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="•¡C”äŠr" class="button_s"></p>|;
+	print qq|<p><input type="submit" value="è¤‡å¢æ¯”è¼ƒ" class="button_s"></p>|;
 	print qq|<input type="text" name="comp1" value="">|;
 	print qq|<input type="text" name="comp2" value=""></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">ÈÊŞ°×İÄŞ‘—‚èFˆÈ‰º‚Ìó‘Ô‚É‚È‚Á‚½‚Ég—p<ul>|;
-	print qq|<li>¬—‚ÌŒëì“®‚ÅÈÊŞ°×İÄŞ‘—‚è‚³‚ê‚È‚©‚Á‚½iŒÂlİ’è‚É‚©‚©‚í‚ç‚¸‘SˆõÈÊŞ°×İÄŞ‘—‚è‚É‚µ‚Ü‚·j|;
+	print qq|<div class="mes">ï¾ˆï¾Šï¾ï½°ï¾—ï¾ï¾„ï¾é€ã‚Šï¼šä»¥ä¸‹ã®çŠ¶æ…‹ã«ãªã£ãŸæ™‚ã«ä½¿ç”¨<ul>|;
+	print qq|<li>æ··ä¹±ã®èª¤ä½œå‹•ã§ï¾ˆï¾Šï¾ï½°ï¾—ï¾ï¾„ï¾é€ã‚Šã•ã‚Œãªã‹ã£ãŸæ™‚ï¼ˆå€‹äººè¨­å®šã«ã‹ã‹ã‚ã‚‰ãšå…¨å“¡ï¾ˆï¾Šï¾ï½°ï¾—ï¾ï¾„ï¾é€ã‚Šã«ã—ã¾ã™ï¼‰|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="country_reset">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ÈÊŞ×İ‘—‚è" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ï¾ˆï¾Šï¾ï¾—ï¾é€ã‚Š" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">‰ü‘¢ÊßÙÌßİÃF‹­§“I‚Éî¨•ÏX<ul>|;
-	print qq|<li>Õ‚èî¨‚Ì‚Ü‚Ü‚¾‚Á‚½ê‡‚È‚Ç‚Ég—p‚·‚é|;
+	print qq|<div class="mes">æ”¹é€ ï¾Šï¾Ÿï¾™ï¾Œï¾Ÿï¾ï¾ƒï¼šå¼·åˆ¶çš„ã«æƒ…å‹¢å¤‰æ›´<ul>|;
+	print qq|<li>ç¥­ã‚Šæƒ…å‹¢ã®ã¾ã¾ã ã£ãŸå ´åˆãªã©ã«ä½¿ç”¨ã™ã‚‹|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_parupunte">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ÌßİÃ" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ï¾Œï¾Ÿï¾ï¾ƒ" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">•s‹ä‘Õ“V‹Ù‹}2<ul>|;
-	print qq|<li>i‰¼j|;
-	print qq|<form method="$method" action="$this_script"><p>‘—MæF<input type="text" name="send_name" class="text_box1"></p><input type="hidden" name="mode" value="kinotake_god">|;
+	print qq|<div class="mes">ä¸å€¶æˆ´å¤©ç·Šæ€¥2<ul>|;
+	print qq|<li>ï¼ˆä»®ï¼‰|;
+	print qq|<form method="$method" action="$this_script"><p>é€ä¿¡å…ˆï¼š<input type="text" name="send_name" class="text_box1"></p><input type="hidden" name="mode" value="kinotake_god">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="•s‹ä‘Õ“V‹Ù‹}2" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ä¸å€¶æˆ´å¤©ç·Šæ€¥2" class="button_s"></p></form></div>|;
 
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">ƒ{ƒX<ul>|;
-	print qq|<li>Œ»İ‚Ìƒ{ƒX<br>|;
-	open my $bfh, "< $logdir/monster/boss.cgi" or &error("$logdir/monster/boss.cgiÌ§²Ù‚ª‚ ‚è‚Ü‚¹‚ñ");
+	print qq|<div class="mes">ãƒœã‚¹<ul>|;
+	print qq|<li>ç¾åœ¨ã®ãƒœã‚¹<br>|;
+	open my $bfh, "< $logdir/monster/boss.cgi" or &error("$logdir/monster/boss.cgiï¾Œï½§ï½²ï¾™ãŒã‚ã‚Šã¾ã›ã‚“");
 	my $line = <$bfh>;
 	my ($bname, $bcountry, $bmax_hp, $bmax_mp, $bat, $bdf, $bmat, $bmdf, $bag, $bcha, $bwea, $bskills, $bmes_win, $bmes_lose, $bicon, $bwea_name) = split /<>/, $line;
 	print qq|$bname HP:$bmax_hp MP:$bmax_mp<br>|;
-	print qq|UŒ‚:$bat –‚U:$bmat<br>|;
-	print qq|–hŒä:$bdf –‚–h:$bmdf<br>|;
-	print qq|‘f‘:$bag –£—Í:$bcha<br>|;
-	print qq|•Ší:$weas[$bwea][1]<br>|;
-	print qq|‹Z:|;
+	print qq|æ”»æ’ƒ:$bat é­”æ”»:$bmat<br>|;
+	print qq|é˜²å¾¡:$bdf é­”é˜²:$bmdf<br>|;
+	print qq|ç´ æ—©:$bag é­…åŠ›:$bcha<br>|;
+	print qq|æ­¦å™¨:$weas[$bwea][1]<br>|;
+	print qq|æŠ€:|;
 	my @bskill = split /,/, $bskills;
 	for(@bskill){
 		print qq|$skills[$_][1],|;
 	}
 	print qq|<br>|;
-	print qq|<form method="$method" action="$this_script"><p>Vƒ{ƒXì¬</p><input type="hidden" name="mode" value="boss_make">|;
-	print qq|<p>ƒ{ƒX–¼<input type="text" name="boss_name" class="text_box1"></p>|;
+	print qq|<form method="$method" action="$this_script"><p>æ–°ãƒœã‚¹ä½œæˆ</p><input type="hidden" name="mode" value="boss_make">|;
+	print qq|<p>ãƒœã‚¹å<input type="text" name="boss_name" class="text_box1"></p>|;
 	print qq|<p>HP<input type="text" name="boss_hp" class="text_box1">MP<input type="text" name="boss_mp" class="text_box1"></p>|;
-	print qq|<p>UŒ‚<input type="text" name="boss_at" class="text_box1">–‚U<input type="text" name="boss_mat" class="text_box1"></p>|;
-	print qq|<p>–hŒä<input type="text" name="boss_df" class="text_box1">–‚–h<input type="text" name="boss_mdf" class="text_box1"></p>|;
-	print qq|<p>‘f‘<input type="text" name="boss_ag" class="text_box1">–£—Í<input type="text" name="boss_cha" class="text_box1"></p>|;
-	print qq|<p>•Ší<select name="boss_wea" class="menu1">|;
+	print qq|<p>æ”»æ’ƒ<input type="text" name="boss_at" class="text_box1">é­”æ”»<input type="text" name="boss_mat" class="text_box1"></p>|;
+	print qq|<p>é˜²å¾¡<input type="text" name="boss_df" class="text_box1">é­”é˜²<input type="text" name="boss_mdf" class="text_box1"></p>|;
+	print qq|<p>ç´ æ—©<input type="text" name="boss_ag" class="text_box1">é­…åŠ›<input type="text" name="boss_cha" class="text_box1"></p>|;
+	print qq|<p>æ­¦å™¨<select name="boss_wea" class="menu1">|;
 	for(0..$#weas){
 		print qq|<option value="$_">$weas[$_][1]</option>|;
 	}
-	print qq|<p>•Ší–¼<input type="text" name="boss_weaname" class="text_box1"></p>|;
+	print qq|<p>æ­¦å™¨å<input type="text" name="boss_weaname" class="text_box1"></p>|;
 	print qq|</select></p>|;
 	for my $i (1..5){
-		print qq|<p>‹Z$i<select name="boss_skill$i" class="menu1">|;
+		print qq|<p>æŠ€$i<select name="boss_skill$i" class="menu1">|;
 		for(0..$#skills){
 			print qq|<option value="$_">$skills[$_][1]</option>|;
 		}
 		print qq|</select></p>|;
 	}
-	print qq|<p>Œ‚”jƒƒbƒZ[ƒW<input type="text" name="boss_winmes" class="textarea1"></p>|;
-	print qq|<p>”s–kƒƒbƒZ[ƒW<input type="text" name="boss_losemes" class="textarea1"></p>|;
+	print qq|<p>æ’ƒç ´ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸<input type="text" name="boss_winmes" class="textarea1"></p>|;
+	print qq|<p>æ•—åŒ—ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸<input type="text" name="boss_losemes" class="textarea1"></p>|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="Vƒ{ƒXì¬" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="æ–°ãƒœã‚¹ä½œæˆ" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">ƒŠƒZƒbƒg<ul>|;
-	print qq|<li>i‰¼j|;
+	print qq|<div class="mes">ãƒªã‚»ãƒƒãƒˆ<ul>|;
+	print qq|<li>ï¼ˆä»®ï¼‰|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="all_reset_point">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ƒŠƒZƒbƒg" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ãƒªã‚»ãƒƒãƒˆ" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">‰Šú’lƒZƒbƒg<ul>|;
+	print qq|<div class="mes">åˆæœŸå€¤ã‚»ãƒƒãƒˆ<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="all_set_default">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="‰Šú’lƒZƒbƒg" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="åˆæœŸå€¤ã‚»ãƒƒãƒˆ" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">ƒ‚ƒ“ƒXƒ^[ƒŠƒZƒbƒg<ul>|;
+	print qq|<div class="mes">ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãƒªã‚»ãƒƒãƒˆ<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="reset_monster">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ƒŠƒZƒbƒgƒZƒbƒg" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ãƒªã‚»ãƒƒãƒˆã‚»ãƒƒãƒˆ" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">–£—ÍC³<ul>|;
+	print qq|<div class="mes">é­…åŠ›ä¿®æ­£<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="modify_cha">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="–£—ÍC³" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="é­…åŠ›ä¿®æ­£" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">‰„’·<ul>|;
+	print qq|<div class="mes">å»¶é•·<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_losstime">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="‰„’·" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="å»¶é•·" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">ƒTƒ}[ƒWƒƒƒ“ƒ{ƒŠƒXƒgƒAƒbƒv<ul>|;
+	print qq|<div class="mes">ã‚µãƒãƒ¼ã‚¸ãƒ£ãƒ³ãƒœãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_summer_lot_list_up">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ƒŠƒXƒg‰»" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ãƒªã‚¹ãƒˆåŒ–" class="button_s"></p></form></div>|;
 		
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">‰ÄƒCƒxI—¹ˆ—<ul>|;
+	print qq|<div class="mes">å¤ã‚¤ãƒ™çµ‚äº†å‡¦ç†<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_summer_end">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="I—¹" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="çµ‚äº†" class="button_s"></p></form></div>|;
 		
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">“K“–mŠ¯ƒtƒ‰ƒOƒŠƒZƒbƒgˆ—<ul>|;
+	print qq|<div class="mes">é©å½“å£«å®˜ãƒ•ãƒ©ã‚°ãƒªã‚»ãƒƒãƒˆå‡¦ç†<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="migrate_reset">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ƒŠƒZƒbƒg" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ãƒªã‚»ãƒƒãƒˆ" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">—Õˆ—i˜A‘Å‚µ‚È‚¢‚±‚ÆA‚Ü‚½ˆ—I—¹ŒãƒRƒƒ“ƒgƒAƒEƒg‚Ì‚±‚Æj<ul>|;
+	print qq|<div class="mes">è‡¨æ™‚å‡¦ç†ï¼ˆé€£æ‰“ã—ãªã„ã“ã¨ã€ã¾ãŸå‡¦ç†çµ‚äº†å¾Œã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã®ã“ã¨ï¼‰<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_expendable">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
 	print qq|<input type="text" name="to_name">|;
-	print qq|<p><input type="submit" value="—Õˆ—" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="è‡¨æ™‚å‡¦ç†" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">Íß¯Ä—¬’Êó‹µ’²¸<ul>|;
+	print qq|<div class="mes">ï¾ï¾Ÿï½¯ï¾„æµé€šçŠ¶æ³èª¿æŸ»<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_all_pet_check">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="’²¸" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="èª¿æŸ»" class="button_s"></p></form></div>|;
 	
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">è†‘—M—š—ğ<ul>|;
+	print qq|<div class="mes">æ‰‹ç´™é€ä¿¡å±¥æ­´<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_letter_log_check">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ƒ`ƒFƒbƒN" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ãƒã‚§ãƒƒã‚¯" class="button_s"></p></form></div>|;
 
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">›z‰»—š—ğ<ul>|;
+	print qq|<div class="mes">å­µåŒ–å±¥æ­´<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_incubation_log_check">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ƒ`ƒFƒbƒN" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ãƒã‚§ãƒƒã‚¯" class="button_s"></p></form></div>|;
 
 	print qq|<br><br><br>|;
-	print qq|<div class="mes">w“ü—š—ğ<ul>|;
+	print qq|<div class="mes">è³¼å…¥å±¥æ­´<ul>|;
 	print qq|<form method="$method" action="$this_script"><input type="hidden" name="mode" value="admin_shopping_log_check">|;
 	print qq|<input type="hidden" name="pass" value="$in{pass}">|;
-	print qq|<p><input type="submit" value="ƒ`ƒFƒbƒN" class="button_s"></p></form></div>|;
+	print qq|<p><input type="submit" value="ãƒã‚§ãƒƒã‚¯" class="button_s"></p></form></div>|;
 
 	print qq|<br><br><br>|;
 	my @files = glob "$logdir/monster/*.cgi";
@@ -396,8 +395,8 @@ sub top {
 			next;
 		}
 		print qq|<div class="mes">$p_name<br>|;
-		print qq|<table><tr><th>–¼‘O</th><th>‹Z</th><th>ŠëŒ¯“x</th></tr>|;
-		open my $fh, "<$p_name" or &error("$p_nameÌ§²Ù‚ªŠJ‚¯‚Ü‚¹‚ñ");
+		print qq|<table><tr><th>åå‰</th><th>æŠ€</th><th>å±é™ºåº¦</th></tr>|;
+		open my $fh, "<$p_name" or &error("$p_nameï¾Œï½§ï½²ï¾™ãŒé–‹ã‘ã¾ã›ã‚“");
 		while (my $line = <$fh>) {
 			my @datas = split /<>/, $line;
 			my $i = 0;
@@ -432,7 +431,7 @@ sub top {
 }
 
 #=================================================
-# íœE’Ç•úˆ—
+# å‰Šé™¤ãƒ»è¿½æ”¾å‡¦ç†
 #=================================================
 sub admin_delete_user {
 	return unless @delfiles;
@@ -441,12 +440,12 @@ sub admin_delete_user {
 	for my $delfile (@delfiles) {
 		my %datas = &get_you_datas($delfile, 1);
 
-		if ($in{is_delete} eq 'exile') { # ’Ç•ú
+		if ($in{is_delete} eq 'exile') { # è¿½æ”¾
 			my $id = unpack 'H*', $datas{name};
 			return unless -f "$userdir/$id/user.cgi";
 
 			&move_player($datas{name}, $datas{country}, 0);
-			$mes .= "$datas{name}‚ğ’Ç•ú‚µ‚Ü‚µ‚½<br>";
+			$mes .= "$datas{name}ã‚’è¿½æ”¾ã—ã¾ã—ãŸ<br>";
 
 			my @data = (
 				['wt', 3 * 24 * 3600],
@@ -459,15 +458,15 @@ sub admin_delete_user {
 		}
 		elsif ($in{is_delete} eq 'delete') {
 			&move_player($datas{name}, $datas{country}, 'del');
-			$mes .= "$datas{name}‚ğíœ‚µ‚Ü‚µ‚½<br>";
+			$mes .= "$datas{name}ã‚’å‰Šé™¤ã—ã¾ã—ãŸ<br>";
 
-			# ˆá”½ÒƒŠƒXƒg‚É’Ç‰Á
+			# é•åè€…ãƒªã‚¹ãƒˆã«è¿½åŠ 
 			if ($in{is_add_deny}) {
-				open my $fh, ">> $logdir/deny_addr.cgi" or &error("$logdir/deny_addr.cgiÌ§²Ù‚ªŠJ‚¯‚Ü‚¹‚ñ");
+				open my $fh, ">> $logdir/deny_addr.cgi" or &error("$logdir/deny_addr.cgiï¾Œï½§ï½²ï¾™ãŒé–‹ã‘ã¾ã›ã‚“");
 				print $fh $datas{agent} =~ /DoCoMo/ || $datas{agent} =~ /KDDI|UP\.Browser/
 					|| $datas{agent} =~ /J-PHONE|Vodafone|SoftBank/ ? "$datas{agent}\n" : "$datas{addr}\n";
 				if(-f "$userdir/$id/access_log.cgi"){
-					open my $fh2, "< $userdir/$id/access_log.cgi" or &error("‚»‚Ì‚æ‚¤‚ÈÌßÚ²Ô°‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
+					open my $fh2, "< $userdir/$id/access_log.cgi" or &error("ãã®ã‚ˆã†ãªï¾Œï¾Ÿï¾šï½²ï¾”ï½°ã¯å­˜åœ¨ã—ã¾ã›ã‚“");
 					while (my $line_info_add = <$fh2>){
 						($d{addr}, $d{host}, $d{agent}) = split /<>/, $line_info_add;
 						print $fh ($d{agent} =~ /DoCoMo/ ||
@@ -482,7 +481,7 @@ sub admin_delete_user {
 }
 
 #=================================================
-# Ø¾¯Äˆ—F‰æ–Ê^‚Á•@ƒnƒ}‚Á‚½ê‡‚Ég—p(‰½‚©‚µ‚ç‚ÌˆÙí´×°)
+# ï¾˜ï½¾ï½¯ï¾„å‡¦ç†ï¼šç”»é¢çœŸã£é»’ã€€ãƒãƒã£ãŸå ´åˆã«ä½¿ç”¨(ä½•ã‹ã—ã‚‰ã®ç•°å¸¸ï½´ï¾—ï½°)
 #=================================================
 sub admin_refresh {
 	return unless $in{id};
@@ -493,11 +492,11 @@ sub admin_refresh {
 	$id = $in{id};
 	&write_user;
 	
-	$mes .= "$m{name}‚Ìlib,tp‚È‚Ç‚Ì’l‚ğØ¾¯Ä‚µ‚Ü‚µ‚½<br>";
+	$mes .= "$m{name}ã®lib,tpãªã©ã®å€¤ã‚’ï¾˜ï½¾ï½¯ï¾„ã—ã¾ã—ãŸ<br>";
 }
 
 #=================================================
-# –³Š‘®ˆ—F‹­§“I‚É–³Š‘®‚É‚·‚é
+# ç„¡æ‰€å±å‡¦ç†ï¼šå¼·åˆ¶çš„ã«ç„¡æ‰€å±ã«ã™ã‚‹
 #=================================================
 sub admin_go_neverland {
 	return unless $in{id};
@@ -515,22 +514,22 @@ sub admin_go_neverland {
 	
 	&write_user;
 	
-	$mes .= "$m{name}‚ÌŠ‘®‘‚ğØ¾¯Ä‚µ‚Ü‚µ‚½<br>";
+	$mes .= "$m{name}ã®æ‰€å±å›½ã‚’ï¾˜ï½¾ï½¯ï¾„ã—ã¾ã—ãŸ<br>";
 }
 
 
 #=================================================
-# ‘‚²‚Æ‚Ìƒ†[ƒU[ƒf[ƒ^‚ğæ“¾
+# å›½ã”ã¨ã®ãƒ¦ãƒ¼ã‚¶ãƒ¼ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—
 #=================================================
 sub get_country_users {
 	my $country = shift;
 	my @lines = ();
-	open my $fh, "< $logdir/$country/member.cgi" or &error("$logdir/$country/member.cgiÌ§²Ù‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ");
+	open my $fh, "< $logdir/$country/member.cgi" or &error("$logdir/$country/member.cgiï¾Œï½§ï½²ï¾™ãŒèª­ã¿è¾¼ã‚ã¾ã›ã‚“");
 	while (my $name = <$fh>) {
 		$name =~ tr/\x0D\x0A//d;
 		
 		my $id = unpack 'H*', $name;
-		open my $fh2, "< $userdir/$id/user.cgi" or &error("‚»‚Ì‚æ‚¤‚ÈÌßÚ²Ô°‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
+		open my $fh2, "< $userdir/$id/user.cgi" or &error("ãã®ã‚ˆã†ãªï¾Œï¾Ÿï¾šï½²ï¾”ï½°ã¯å­˜åœ¨ã—ã¾ã›ã‚“");
 		my $line_data = <$fh2>;
 		my $line_info = <$fh2>;
 		close $fh2;
@@ -562,17 +561,17 @@ sub get_country_users {
 
 
 #=================================================
-# ‘Sƒ†[ƒU[‚Ìƒf[ƒ^‚ğæ“¾
+# å…¨ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—
 #=================================================
 sub get_all_users {
 	my @lines = ();
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $id = readdir $dh) {
 		next if $id =~ /\./;
 		next if $id =~ /backup/;
 		next if ($in{sort} eq 'player' && $in{checkid} && $in{checkid} ne $id);
 		
-		open my $fh, "< $userdir/$id/user.cgi" or &error("‚»‚Ì‚æ‚¤‚ÈÌßÚ²Ô°‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
+		open my $fh, "< $userdir/$id/user.cgi" or &error("ãã®ã‚ˆã†ãªï¾Œï¾Ÿï¾šï½²ï¾”ï½°ã¯å­˜åœ¨ã—ã¾ã›ã‚“");
 		my $line_data = <$fh>;
 		my $line_info = <$fh>;
 		close $fh;
@@ -585,7 +584,7 @@ sub get_all_users {
 		}
 		
 		if(-f "$userdir/$id/access_log.cgi" && ($in{sort} eq 'check' || ($in{sort} eq 'player' && $in{checkid}))){
-			open my $fh2, "< $userdir/$id/access_log.cgi" or &error("‚»‚Ì‚æ‚¤‚ÈÌßÚ²Ô°‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
+			open my $fh2, "< $userdir/$id/access_log.cgi" or &error("ãã®ã‚ˆã†ãªï¾Œï¾Ÿï¾šï½²ï¾”ï½°ã¯å­˜åœ¨ã—ã¾ã›ã‚“");
 			while (my $line_info_add = <$fh2>){
 				($m{addr}, $m{host}, $m{agent}) = split /<>/, $line_info_add;
 				my $line = "$id<>";
@@ -620,13 +619,13 @@ sub get_all_users {
 
 
 #=================================================
-# ƒf[ƒ^•â³Fl”‚â‘‚ÌÒİÊŞ°‚È‚Ç‚ª‚¨‚©‚µ‚¢‚Ì‚ğˆê’U”’†‚É‚µ‚Ä‚©‚ç‘‚«’¼‚·
+# ãƒ‡ãƒ¼ã‚¿è£œæ­£ï¼šäººæ•°ã‚„å›½ã®ï¾’ï¾ï¾Šï¾ï½°ãªã©ãŒãŠã‹ã—ã„ã®ã‚’ä¸€æ—¦ç™½ç´™ã«ã—ã¦ã‹ã‚‰æ›¸ãç›´ã™
 #=================================================
 sub admin_repaire {
 	my %members = ();
 	
 	my $count = 0;
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $id = readdir $dh) {
 		next if $id =~ /\./;
 		next if $id =~ /backup/;
@@ -645,7 +644,7 @@ sub admin_repaire {
 	my $all_member = 0;
 	for my $i (0 .. $w{country}) {
 		$mes .= "<hr>$cs{name}[$i]<br>@{ $members{$i} }<br>";
-		open my $fh, "> $logdir/$i/member.cgi" or &error("$logdir/$i/member.cgiÌ§²Ù‚ªŠJ‚¯‚Ü‚¹‚ñ");
+		open my $fh, "> $logdir/$i/member.cgi" or &error("$logdir/$i/member.cgiï¾Œï½§ï½²ï¾™ãŒé–‹ã‘ã¾ã›ã‚“");
 		print $fh @{ $members{$i} };
 		close $fh;
 		
@@ -656,16 +655,16 @@ sub admin_repaire {
 	}
 	
 	&write_cs;
-	$mes .= "<hr>l”‚â‘‚ÌÒİÊŞ°Ì§²Ù‚ğC³‚µ‚Ü‚µ‚½<br>";
+	$mes .= "<hr>äººæ•°ã‚„å›½ã®ï¾’ï¾ï¾Šï¾ï½°ï¾Œï½§ï½²ï¾™ã‚’ä¿®æ­£ã—ã¾ã—ãŸ<br>";
 }
 
 
 #=================================================
-# –§—AŠÄ‹
+# å¯†è¼¸ç›£è¦–
 #=================================================
 sub junk_sub {
 	my $del = shift;
-	open my $fh3, "+< $logdir/junk_shop_sub.cgi" or &error("$logdir/junk_shop_sub.cgiÌ§²Ù‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	open my $fh3, "+< $logdir/junk_shop_sub.cgi" or &error("$logdir/junk_shop_sub.cgiï¾Œï½§ï½²ï¾™ãŒé–‹ã‘ã¾ã›ã‚“");
 	my @lines = <$fh3>;
 	my @sell = ();
 	my @buy = ();
@@ -673,7 +672,7 @@ sub junk_sub {
 	@lines = map { $_->[0] }
 				sort { $a->[1] <=> $b->[1] || $a->[2] <=> $b->[2] || $a->[5] <=> $b->[5]}
 					map { [$_, split /<>/ ] } @lines;
-	$mes .= qq|<td>ƒAƒCƒeƒ€ƒ\\[ƒg<table class="table1"><tr><th>ƒAƒCƒeƒ€</th><th>–¼‘O</th><th>”„‚è/”ƒ‚¢</th><th>ŠÔ</th></tr>|;
+	$mes .= qq|<td>ã‚¢ã‚¤ãƒ†ãƒ ã‚½\ãƒ¼ãƒˆ<table class="table1"><tr><th>ã‚¢ã‚¤ãƒ†ãƒ </th><th>åå‰</th><th>å£²ã‚Š/è²·ã„</th><th>æ™‚é–“</th></tr>|;
 	for my $line (@lines){
 		my($kind, $item_no, $item_c, $name, $jtime, $type) = split /<>/, $line;
 		my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime($jtime);
@@ -684,14 +683,14 @@ sub junk_sub {
 		$mes .= "<td>";
 		$mes .= &get_item_name($kind, $item_no);
 		$mes .= "</td><td>$name</td>";
-		$mes .= $type ? "<td>”ƒ‚¢</td>" : "<td>”„‚è</td>";
+		$mes .= $type ? "<td>è²·ã„</td>" : "<td>å£²ã‚Š</td>";
 		$mes .= "<td>$jtime2<br></td></tr>";
 	}
 	$mes .= qq|</table></td>|;
 	@lines = map { $_->[0] }
 				sort { $a->[5] <=> $b->[5] }
 					map { [$_, split /<>/ ] } @lines;
-	$mes .= qq|<td>ŠÔƒ\\[ƒg<table class="table1"><tr><th>ƒAƒCƒeƒ€</th><th>–¼‘O</th><th>”„‚è/”ƒ‚¢</th><th>ŠÔ</th></tr>|;
+	$mes .= qq|<td>æ™‚é–“ã‚½\ãƒ¼ãƒˆ<table class="table1"><tr><th>ã‚¢ã‚¤ãƒ†ãƒ </th><th>åå‰</th><th>å£²ã‚Š/è²·ã„</th><th>æ™‚é–“</th></tr>|;
 	for my $line (@lines){
 		my($kind, $item_no, $item_c, $name, $jtime, $type) = split /<>/, $line;
 		my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime($jtime);
@@ -702,7 +701,7 @@ sub junk_sub {
 		$mes .= "<td>";
 		$mes .= &get_item_name($kind, $item_no);
 		$mes .= "</td><td>$name</td>";
-		$mes .= $type ? "<td>”ƒ‚¢</td>" : "<td>”„‚è</td>";
+		$mes .= $type ? "<td>è²·ã„</td>" : "<td>å£²ã‚Š</td>";
 		$mes .= "<td>$jtime2<br></td></tr>";
 	}
 	$mes .= qq|</table></td>|;
@@ -716,29 +715,29 @@ sub junk_sub {
 }
 
 #=================================================
-# ¼Ş¬İ¸¼®¯Ìß‚Ì’†gŠm”F
+# ï½¼ï¾ï½¬ï¾ï½¸ï½¼ï½®ï½¯ï¾Œï¾Ÿã®ä¸­èº«ç¢ºèª
 #=================================================
 sub junk_show {
 	my $count = 0;
 	my $mes_sub;
-	open my $fh, "< $logdir/junk_shop.cgi" or &error("$logdir/junk_shop.cgi‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½");
+	open my $fh, "< $logdir/junk_shop.cgi" or &error("$logdir/junk_shop.cgiã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸ");
 	while (my $line = <$fh>) {
 		$count++;
 		my($kind, $item_no, $item_c) = split /<>/, $line;
 		$mes_sub .= &get_item_name($kind, $item_no, $item_c)."<br>";
 	}
 	close $fh;
-	$mes .= "$countŒÂ<br>".$mes_sub;
+	$mes .= "$countå€‹<br>".$mes_sub;
 }
 
 #=================================================
-# ÈÊŞ°×İÄŞ‘—‚è
+# ï¾ˆï¾Šï¾ï½°ï¾—ï¾ï¾„ï¾é€ã‚Š
 #=================================================
 sub country_reset {
 	my %members = ();
 	
 	my $count = 0;
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $id = readdir $dh) {
 		next if $id =~ /\./;
 		next if $id =~ /backup/;
@@ -770,7 +769,7 @@ sub country_reset {
 	my $all_member = 0;
 	for my $i (0 .. $w{country}) {
 		$mes .= "<hr>$cs{name}[$i]<br>@{ $members{$i} }<br>";
-		open my $fh, "> $logdir/$i/member.cgi" or &error("$logdir/$i/member.cgiÌ§²Ù‚ªŠJ‚¯‚Ü‚¹‚ñ");
+		open my $fh, "> $logdir/$i/member.cgi" or &error("$logdir/$i/member.cgiï¾Œï½§ï½²ï¾™ãŒé–‹ã‘ã¾ã›ã‚“");
 		print $fh @{ $members{$i} };
 		close $fh;
 		
@@ -781,11 +780,11 @@ sub country_reset {
 	}
 	
 	&write_cs;
-	$mes .= "<hr>‘SˆõÈÊŞ°×İÄŞ‘—‚è‚É‚µ‚Ü‚µ‚½<br>";
+	$mes .= "<hr>å…¨å“¡ï¾ˆï¾Šï¾ï½°ï¾—ï¾ï¾„ï¾é€ã‚Šã«ã—ã¾ã—ãŸ<br>";
 }
 
 #=================================================
-# •s‹ä‘Õ“V‹Ù‹}2
+# ä¸å€¶æˆ´å¤©ç·Šæ€¥2
 #=================================================
 sub kinotake_god {
 	my $pid = pack 'H*', $in{send_name};
@@ -800,19 +799,19 @@ sub kinotake_god {
 }
 
 #=================================================
-# ’´ƒ{ƒXì¬
+# è¶…ãƒœã‚¹ä½œæˆ
 #=================================================
 sub boss_make {
-	open my $bfh, "> $logdir/monster/boss.cgi" or &error("$logdir/monster/boss.cgiÌ§²Ù‚ª‚ ‚è‚Ü‚¹‚ñ");
+	open my $bfh, "> $logdir/monster/boss.cgi" or &error("$logdir/monster/boss.cgiï¾Œï½§ï½²ï¾™ãŒã‚ã‚Šã¾ã›ã‚“");
 	print $bfh "$in{boss_name}<>0<>$in{boss_hp}<>$in{boss_mp}<>$in{boss_at}<>$in{boss_df}<>$in{boss_mat}<>$in{boss_mdf}<>$in{boss_ag}<>$in{boss_cha}<>$in{boss_wea}<>$in{boss_skill1},$in{boss_skill2},$in{boss_skill3},$in{boss_skill4},$in{boss_skill5}<>$in{boss_losemes}<>$in{boss_winmes}<>$default_icon<>$in{boss_weaname}<>\n";
 	close $bfh;
 }
 
 #=================================================
-# ‘S‘ã•\ƒ|ƒCƒ“ƒgƒŠƒZƒbƒg
+# å…¨ä»£è¡¨ãƒã‚¤ãƒ³ãƒˆãƒªã‚»ãƒƒãƒˆ
 #=================================================
 sub all_reset_point {
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $id = readdir $dh) {
 		next if $id =~ /\./;
 		next if $id =~ /backup/;
@@ -823,14 +822,14 @@ sub all_reset_point {
 		}
 	}
 	closedir $dh;
-	$mes .= "<hr>‘Sˆõ‚Ì‘ã•\ƒ|ƒCƒ“ƒg‚ğƒŠƒZƒbƒg‚µ‚Ü‚µ‚½<br>";
+	$mes .= "<hr>å…¨å“¡ã®ä»£è¡¨ãƒã‚¤ãƒ³ãƒˆã‚’ãƒªã‚»ãƒƒãƒˆã—ã¾ã—ãŸ<br>";
 }
 
 #=================================================
-# ‰Šú’lƒZƒbƒg
+# åˆæœŸå€¤ã‚»ãƒƒãƒˆ
 #=================================================
 sub all_set_default {
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $id = readdir $dh) {
 		next if $id =~ /\./;
 		next if $id =~ /backup/;
@@ -838,14 +837,14 @@ sub all_set_default {
 		&regist_you_data($m{name}, "start_time", $time);
 	}
 	closedir $dh;
-	$mes .= "<hr>‘Sˆõ‚Ì‰Šú’l‚ğƒZƒbƒg‚µ‚Ü‚µ‚½<br>";
+	$mes .= "<hr>å…¨å“¡ã®åˆæœŸå€¤ã‚’ã‚»ãƒƒãƒˆã—ã¾ã—ãŸ<br>";
 }
 
 #=================================================
-# ƒ‚ƒ“ƒXƒ^[‰Šú‰»
+# ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼åˆæœŸåŒ–
 #=================================================
 sub reset_monster {
-	# –‚•¨‚©‚ç‘—‚ç‚ê‚Ä‚­‚éÀÏºŞ
+	# é­”ç‰©ã‹ã‚‰é€ã‚‰ã‚Œã¦ãã‚‹ï¾€ï¾ï½ºï¾
 	my @egg_nos = (1..34,42..51);
 	
 	my @files = glob "$logdir/monster/*.cgi";
@@ -855,23 +854,23 @@ sub reset_monster {
 		}
 		$mes .= "$p_name<br>";
 		my @lines = ();
-		open my $fh, "+< $p_name" or &error("$p_nameÌ§²Ù‚ªŠJ‚¯‚Ü‚¹‚ñ");
+		open my $fh, "+< $p_name" or &error("$p_nameï¾Œï½§ï½²ï¾™ãŒé–‹ã‘ã¾ã›ã‚“");
 		&dirflock($pname);
 		while (my $line = <$fh>) {
-			# –‚•¨‰æ‘œ‚ğ•Ô‚·ˆ—
+			# é­”ç‰©ç”»åƒã‚’è¿”ã™å‡¦ç†
 			next unless $default_icon;
 			my($ymname, $ymes_win, $yicon, $yname) = (split /<>/, $line)[0,-5,-3,-2];
 			next if $yicon eq $default_icon;
-			next unless -f "$icondir/$yicon"; # ‰æ‘œ‚ª‚È‚¢
+			next unless -f "$icondir/$yicon"; # ç”»åƒãŒãªã„
 			my $y_id  = unpack 'H*', $yname;
-			next unless -d "$userdir/$y_id/picture"; # ÌßÚ²Ô°‚ª‘¶İ‚µ‚È‚¢
+			next unless -d "$userdir/$y_id/picture"; # ï¾Œï¾Ÿï¾šï½²ï¾”ï½°ãŒå­˜åœ¨ã—ãªã„
 			
-			# –‚•¨‚©‚çå‚Ö‚Ìè†
+			# é­”ç‰©ã‹ã‚‰ä¸»ã¸ã®æ‰‹ç´™
 			my $m_message = $m_messages[ int( rand(@m_messages) ) ];
-			$in{comment}  = qq|$places[$place][2]‚ÉZ‚Ş–‚•¨$ymname‚ÌÅŒã‚ğŒ©“Í‚¯‚½$m{name}‚©‚ç‚Ìè†<br><br>|;
-			$in{comment} .= qq|$ymname‚ÌÅŒã‚ÌŒ¾—tw$m_message$ymes_winx<br>|;
-			$in{comment} .= qq|$ymname‚Ì‰æ‘œ‚ÍÏ²Ëß¸Á¬‚É–ß‚è‚Ü‚µ‚½<br>|;
-			$in{comment} .= qq|$ymname‚©‚çÀÏºŞ‚ª‘¡‚ç‚ê‚½‚æ‚¤‚¾<br>|;
+			$in{comment}  = qq|$places[$place][2]ã«ä½ã‚€é­”ç‰©$ymnameã®æœ€å¾Œã‚’è¦‹å±Šã‘ãŸ$m{name}ã‹ã‚‰ã®æ‰‹ç´™<br><br>|;
+			$in{comment} .= qq|$ymnameã®æœ€å¾Œã®è¨€è‘‰ã€$m_message$ymes_winã€<br>|;
+			$in{comment} .= qq|$ymnameã®ç”»åƒã¯ï¾ï½²ï¾‹ï¾Ÿï½¸ï¾ï½¬ã«æˆ»ã‚Šã¾ã—ãŸ<br>|;
+			$in{comment} .= qq|$ymnameã‹ã‚‰ï¾€ï¾ï½ºï¾ãŒè´ˆã‚‰ã‚ŒãŸã‚ˆã†ã <br>|;
 
 			&send_letter($yname);
 			rename "$icondir/$yicon", "$userdir/$y_id/picture/$yicon"; 
@@ -884,13 +883,13 @@ sub reset_monster {
 		close $fh;
 		&release_dirflock($pname);
 	}
-	$mes .= "<hr>–‚•¨‚ğƒŠƒZƒbƒg‚µ‚Ü‚µ‚½<br>";
+	$mes .= "<hr>é­”ç‰©ã‚’ãƒªã‚»ãƒƒãƒˆã—ã¾ã—ãŸ<br>";
 }
 #=================================================
-# –£—ÍC³
+# é­…åŠ›ä¿®æ­£
 #=================================================
 sub modify_cha {
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $id = readdir $dh) {
 		next if $id =~ /\./;
 		next if $id =~ /backup/;
@@ -901,37 +900,37 @@ sub modify_cha {
 		}
 	}
 	closedir $dh;
-	$mes .= "<hr>‘Sˆõ‚Ì–£—Í‚ğC³‚µ‚Ü‚µ‚½<br>";
+	$mes .= "<hr>å…¨å“¡ã®é­…åŠ›ã‚’ä¿®æ­£ã—ã¾ã—ãŸ<br>";
 }
 #=================================================
-# ‰„’·
+# å»¶é•·
 #=================================================
 sub admin_losstime {
 	$w{limit_time} = $time + 24 * 3600;
 	&write_cs;
-	$mes .= "<hr>c‚èŠÔ‚ğ1“ú‚É‚µ‚Ü‚µ‚½<br>";
+	$mes .= "<hr>æ®‹ã‚Šæ™‚é–“ã‚’1æ—¥ã«ã—ã¾ã—ãŸ<br>";
 }
 #=================================================
-# ‰ÄƒCƒxƒ“ƒgI—¹ ’Eƒ‰ƒWƒIE“ú‹LE•Ší
+# å¤ã‚¤ãƒ™ãƒ³ãƒˆçµ‚äº† è™«ãƒ»ãƒ©ã‚¸ã‚ªãƒ»æ—¥è¨˜ãƒ»æ­¦å™¨
 #=================================================
 sub admin_summer_end {
 	require './lib/shopping_offertory_box.cgi';
 
 	my @morning_glory = ();
 
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $id = readdir $dh) {
 		next if $id =~ /\./;
 		next if $id =~ /backup/;
 
 		my %m = &get_you_datas($id, 1);
 
-		# ‰ÄÕ‚è—p
+		# å¤ç¥­ã‚Šç”¨
 		unless (-f "$userdir/$id/summer.cgi") {
 			open my $fh, "> $userdir/$id/summer.cgi";
 			close $fh;
 		}
-		open my $fh, "< $userdir/$id/summer.cgi" or &error("‚»‚Ì‚æ‚¤‚È–¼‘O‚ÌÌßÚ²Ô°‚ª‘¶İ‚µ‚Ü‚¹‚ñ");
+		open my $fh, "< $userdir/$id/summer.cgi" or &error("ãã®ã‚ˆã†ãªåå‰ã®ï¾Œï¾Ÿï¾šï½²ï¾”ï½°ãŒå­˜åœ¨ã—ã¾ã›ã‚“");
 		my $line = <$fh>;
 		close $fh;
 
@@ -942,14 +941,14 @@ sub admin_summer_end {
 		$m{dummy} = 0;
 
 		if ($m{summer_blog} > 30) {
-			&regist_you_data($m{name}, "shogo", 'šš´Æ¯·Ï½À°');
-			&send_money($m{name}, 'ŠG“ú‹L—DGÜ', 2000000);
+			&regist_you_data($m{name}, "shogo", 'â˜…â˜…ï½´ï¾†ï½¯ï½·ï¾ï½½ï¾€ï½°');
+			&send_money($m{name}, 'çµµæ—¥è¨˜å„ªç§€è³', 2000000);
 			&send_god_item(5, $m{name});
 		} elsif($m{summer_blog} > 20) {
-			&send_money($m{name}, 'ŠG“ú‹L“w—ÍÜ', 500000);
+			&send_money($m{name}, 'çµµæ—¥è¨˜åŠªåŠ›è³', 500000);
 			&send_god_item(1, $m{name});
 		} elsif($m{summer_blog} > 10) {
-			&send_money($m{name}, 'ŠG“ú‹LQ‰ÁÜ', 20000);
+			&send_money($m{name}, 'çµµæ—¥è¨˜å‚åŠ è³', 20000);
 		}
 		
 		push @morning_glory, "$m{name}<>$m{morning_glory}<>\n";
@@ -964,18 +963,18 @@ sub admin_summer_end {
 			last;
 		}
 		if ($rank == 1) {
-			&write_world_big_news(qq|’©Šç¬’·‘æ1ˆÊ‚É$name‚³‚ñ‚ª‹P‚«‚Ü‚µ‚½|);
-			&regist_you_data($name, "shogo", 'šš±»¶ŞµÏ²½À°');
+			&write_world_big_news(qq|æœé¡”æˆé•·ç¬¬1ä½ã«$nameã•ã‚“ãŒè¼ãã¾ã—ãŸ|);
+			&regist_you_data($name, "shogo", 'â˜…â˜…ï½±ï½»ï½¶ï¾ï½µï¾ï½²ï½½ï¾€ï½°');
 		}
 		my $v = 11 - $rank;
 		my $vv = $rank > 7 ? $rank - 7 : 1;
-		&send_money($name, "’©Šç¬’·‘æ $rank ˆÊ", 100000 * $v);
+		&send_money($name, "æœé¡”æˆé•·ç¬¬ $rank ä½", 100000 * $v);
 		&send_god_item($v, $name) for (1..$vv);
 		$rank++;
 	}
 
 	my @pop = ();
-	open my $fh, "< $logdir/pop_vote.cgi" or &error('l‹C“Š•[ƒtƒ@ƒCƒ‹‚ªŠJ‚¯‚Ü‚¹‚ñ');
+	open my $fh, "< $logdir/pop_vote.cgi" or &error('äººæ°—æŠ•ç¥¨ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‘ã¾ã›ã‚“');
 	while (my $line = <$fh>) {
 		my($name, $vote) = split /<>/, $line;
 		push @pop, "$name<>$vote<>\n";
@@ -989,18 +988,18 @@ sub admin_summer_end {
 			last;
 		}
 		if ($rank == 1) {
-			&write_world_big_news(qq|l‹C“Š•[(‹â)‘æ1ˆÊ‚É $name ‚³‚ñ‚ª‹P‚«‚Ü‚µ‚½|);
-			&regist_you_data($name, "shogo", 'š¾İÀ°');
+			&write_world_big_news(qq|äººæ°—æŠ•ç¥¨(éŠ€)ç¬¬1ä½ã« $name ã•ã‚“ãŒè¼ãã¾ã—ãŸ|);
+			&regist_you_data($name, "shogo", 'â˜…ï½¾ï¾ï¾€ï½°');
 		}
 		my $v = 11 - $rank;
 		my $vv = $rank > 7 ? $rank - 7 : 1;
-		&send_money($name, "l‹C“Š•[(‹â)‘æ $rank ˆÊ", 100000 * $v);
+		&send_money($name, "äººæ°—æŠ•ç¥¨(éŠ€)ç¬¬ $rank ä½", 100000 * $v);
 		&send_god_item($v, $name) for (1..$vv);
 		$rank++;
 	}
 	
 	my %pop2 = ();
-	open my $fh, "< $logdir/pop_vote2.cgi" or &error('l‹C“Š•[ƒtƒ@ƒCƒ‹‚ªŠJ‚¯‚Ü‚¹‚ñ');
+	open my $fh, "< $logdir/pop_vote2.cgi" or &error('äººæ°—æŠ•ç¥¨ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‘ã¾ã›ã‚“');
 	while (my $line = <$fh>) {
 		my($pop_name, $vote_name) = split /<>/, $line;
 		$pop2{$pop_name}++;
@@ -1018,19 +1017,19 @@ sub admin_summer_end {
 			last;
 		}
 		if ($rank == 1) {
-			&write_world_big_news(qq|l‹C“Š•[(‹à)‘æ1ˆÊ‚É$name‚³‚ñ‚ª‹P‚«‚Ü‚µ‚½|);
-			&regist_you_data($name, "shogo", 'šš¾İÀ°');
+			&write_world_big_news(qq|äººæ°—æŠ•ç¥¨(é‡‘)ç¬¬1ä½ã«$nameã•ã‚“ãŒè¼ãã¾ã—ãŸ|);
+			&regist_you_data($name, "shogo", 'â˜…â˜…ï½¾ï¾ï¾€ï½°');
 		}
 		my $v = 11 - $rank;
 		my $vv = $rank > 7 ? ($rank - 7) * 3 : 2;
-		&send_money($name, "l‹C“Š•[(‹â)‘æ $rank ˆÊ", 300000 * $v);
+		&send_money($name, "äººæ°—æŠ•ç¥¨(éŠ€)ç¬¬ $rank ä½", 300000 * $v);
 		&send_god_item($v, $name) for (1..$vv);
 		$rank++;
 	}
 
 	my @lot_num = ();
 	my $max_lot = 0;
-	open my $fhn, "< $logdir/event_lot_name.cgi" or &error('•ó‚­‚¶Ì§²Ù‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ');
+	open my $fhn, "< $logdir/event_lot_name.cgi" or &error('å®ãã˜ï¾Œï½§ï½²ï¾™ãŒèª­ã¿è¾¼ã‚ã¾ã›ã‚“');
 	while (my $line = <$fhn>) {
 		my($name, $lot) = split /<>/, $line;
 		push @lot_num, $name;
@@ -1041,30 +1040,30 @@ sub admin_summer_end {
 	$mes .= "aaa" . $name;
 	my $lot_id = unpack 'H*', $name;
 	if (-f "$userdir/$lot_id/user.cgi") {
-		&write_world_big_news(qq|ƒTƒ}[ƒWƒƒƒ“ƒ{‚Ì“–‘IÒ‚Í $name ‚³‚ñ‚Å‚µ‚½|);
-		&regist_you_data($name, "shogo", 'š»Ï°¼Ş¬İÎŞš');
+		&write_world_big_news(qq|ã‚µãƒãƒ¼ã‚¸ãƒ£ãƒ³ãƒœã®å½“é¸è€…ã¯ $name ã•ã‚“ã§ã—ãŸ|);
+		&regist_you_data($name, "shogo", 'â˜…ï½»ï¾ï½°ï½¼ï¾ï½¬ï¾ï¾ï¾â˜…');
 		&regist_you_data($name, "money_overflow", 1);
 		my %p = &get_you_datas($lot_id, 1);
 		&regist_you_data($name, 'money_limit',$p{money} + 300000000);
-		&send_money($name, '»Ï°¼Ş¬İÎŞ“–‘I‹à', 300000000);
+		&send_money($name, 'ï½»ï¾ï½°ï½¼ï¾ï½¬ï¾ï¾ï¾å½“é¸é‡‘', 300000000);
 	}
 	
-	$mes .= "<hr>‰ÄƒCƒxƒ“ƒg‚ÌI—¹ˆ—‚ğ‚µ‚Ü‚µ‚½<br>";
+	$mes .= "<hr>å¤ã‚¤ãƒ™ãƒ³ãƒˆã®çµ‚äº†å‡¦ç†ã‚’ã—ã¾ã—ãŸ<br>";
 }
 
 #=================================================
-# ƒTƒ}[ƒWƒƒƒ“ƒ{ƒŠƒXƒg‰»
+# ã‚µãƒãƒ¼ã‚¸ãƒ£ãƒ³ãƒœãƒªã‚¹ãƒˆåŒ–
 #=================================================
 sub admin_summer_lot_list_up {
 	my @list = ();
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $pid = readdir $dh) {
 		next if $pid =~ /\./;
 		next if $pid =~ /backup/;
 		
 		my %m = &get_you_datas($pid, 1);
-		# ŠÖ”‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢
-		# read_summer ‚ÉÛÄ”Ô†‚à“Ç‚İ‚Ş‚æ‚¤‚É‚·‚ê‚Î—Ç‚¢‚ªÌ§²Ùµ°Ìßİ‚ªˆê‰ñ‘‚¦‚é‚Ì‚ÅÛÄ”Ô†‚¾‚¯‚ğ“Ç‚İ‚ŞŠÖ”‚É‚µ‚Ä‚µ‚Ü‚Á‚½•û‚ªƒXƒ}[ƒg
+		# é–¢æ•°ãŒå®šç¾©ã•ã‚Œã¦ã„ãªã„
+		# read_summer ã«ï¾›ï¾„ç•ªå·ã‚‚èª­ã¿è¾¼ã‚€ã‚ˆã†ã«ã™ã‚Œã°è‰¯ã„ãŒï¾Œï½§ï½²ï¾™ï½µï½°ï¾Œï¾Ÿï¾ãŒä¸€å›å¢—ãˆã‚‹ã®ã§ï¾›ï¾„ç•ªå·ã ã‘ã‚’èª­ã¿è¾¼ã‚€é–¢æ•°ã«ã—ã¦ã—ã¾ã£ãŸæ–¹ãŒã‚¹ãƒãƒ¼ãƒˆ
 		my %s = &get_summer_datas($pid);
 		my @lots = split /,/, $m{event_lot};
 		if ($lots[0] ne '') {
@@ -1074,7 +1073,7 @@ sub admin_summer_lot_list_up {
 		}
 	}
 	@list = map { $_->[0] } sort {$a->[2] <=> $b->[2]} map { [$_, split /<>/] } @list;
-	$mes .= qq|<table><tr><th>–¼‘O</th><th>‚­‚¶</th></tr>|;
+	$mes .= qq|<table><tr><th>åå‰</th><th>ãã˜</th></tr>|;
 	my $next_lot = 1;
 	for my $line (@list) {
 		my ($name, $lot) = split /<>/, $line;
@@ -1097,24 +1096,24 @@ sub admin_summer_lot_list_up {
 }
 
 #=================================================
-# ƒoƒO”­Œ©•ñV
+# ãƒã‚°ç™ºè¦‹å ±é…¬
 #=================================================
 sub bug_prize {
 	my ($kind, $item_no, $item_c, $item_lv) = split /_/, $in{prize};
 
-	my $item_mes = &get_item_name($kind, $item_no, $item_c, $item_lv, 1); # í—Ş”ñ•\¦
+	my $item_mes = &get_item_name($kind, $item_no, $item_c, $item_lv, 1); # ç¨®é¡éè¡¨ç¤º
 	
 	&send_item($in{send_name}, $kind, $item_no, $item_c, $item_lv, 1);
-	&write_send_news(qq|yƒoƒO”­Œ©•ñVz$in{send_name}‚É$item_mes‚ğ‘—‚è‚Ü‚·B|);
-	$mes .= "$in{send_name}‚É$item_mes‚ğ‘—‚è‚Ü‚·B";
+	&write_send_news(qq|ã€ãƒã‚°ç™ºè¦‹å ±é…¬ã€‘$in{send_name}ã«$item_mesã‚’é€ã‚Šã¾ã™ã€‚|);
+	$mes .= "$in{send_name}ã«$item_mesã‚’é€ã‚Šã¾ã™ã€‚";
 }
 
 #=================================================
-# I“à‚Ì‘SÍß¯Ä•\¦
+# é¯–å†…ã®å…¨ï¾ï¾Ÿï½¯ï¾„è¡¨ç¤º
 #=================================================
 sub admin_all_pet_check {
 	my @lines = ();
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $pid = readdir $dh) {
 		next if $pid =~ /\./;
 		next if $pid =~ /backup/;
@@ -1124,7 +1123,7 @@ sub admin_all_pet_check {
 		if ($pm{pet} && $pm{pet_c} >= 10) {
 			push @lines, "$pm{name}<>3<>$pm{pet}<>$pm{pet_c}<>0<>\n";
 		}
-		open my $fh, "< $depot_file" or &error("$depot_file ‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ");
+		open my $fh, "< $depot_file" or &error("$depot_file ãŒèª­ã¿è¾¼ã‚ã¾ã›ã‚“");
 		while (my $line = <$fh>) {
 			my($kind, $item_no, $item_c, $item_lv) = split /<>/, $line;
 			if ($kind eq '3' && $item_c >= 10) {
@@ -1141,13 +1140,13 @@ sub admin_all_pet_check {
 }
 
 #=================================================
-# —Õˆ—(‚¨‚»‚ç‚­ˆê“x‚¾‚¯‚Ìˆ—‚Ìê‡‚»‚Ì“s“x‚±‚±‚Åˆ—)
+# è‡¨æ™‚å‡¦ç†(ãŠãã‚‰ãä¸€åº¦ã ã‘ã®å‡¦ç†ã®å ´åˆãã®éƒ½åº¦ã“ã“ã§å‡¦ç†)
 #=================================================
 sub admin_expendable {
 }
 
 #=================================================
-# •¡C”äŠr
+# è¤‡å¢æ¯”è¼ƒ
 #=================================================
 sub admin_compare {
 	my @lines = ();
@@ -1159,7 +1158,7 @@ sub admin_compare {
 	for my $name (@comp) {
 		my $id = unpack 'H*', $name;
 		
-		open my $fh2, "< $userdir/$id/access_log.cgi" or &error("‚»‚Ì‚æ‚¤‚ÈÌßÚ²Ô°‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
+		open my $fh2, "< $userdir/$id/access_log.cgi" or &error("ãã®ã‚ˆã†ãªï¾Œï¾Ÿï¾šï½²ï¾”ï½°ã¯å­˜åœ¨ã—ã¾ã›ã‚“");
 		while (my $line_info_add = <$fh2>){
 			my ($maddr, $mhost, $magent) = split /<>/, $line_info_add;
 			if (($addr{$maddr} & $bit) == 0) {
@@ -1177,7 +1176,7 @@ sub admin_compare {
 	
 	$mes .= qq|<table class="table1">|;
 	$mes .= qq|<tr>|;
-	$mes .= qq|<th>ƒAƒhƒŒƒX</th>|;
+	$mes .= qq|<th>ã‚¢ãƒ‰ãƒ¬ã‚¹</th>|;
 	for my $name (@comp) {
 		$mes .= qq|<th>$name</th>|;
 	}
@@ -1189,7 +1188,7 @@ sub admin_compare {
 		for my $name (@comp) {
 			$mes_tr .= qq|<td>|;
 			if ($addr{$maddr} & $bit) {
-				$mes_tr .= qq|›|;
+				$mes_tr .= qq|â—‹|;
 				$count++;
 			}
 			$mes_tr .= qq|</td>|;
@@ -1203,7 +1202,7 @@ sub admin_compare {
 
 	$mes .= qq|<table class="table1">|;
 	$mes .= qq|<tr>|;
-	$mes .= qq|<th>ƒzƒXƒg–¼</th>|;
+	$mes .= qq|<th>ãƒ›ã‚¹ãƒˆå</th>|;
 	for my $name (@comp) {
 		$mes .= qq|<th>$name</th>|;
 	}
@@ -1215,7 +1214,7 @@ sub admin_compare {
 		for my $name (@comp) {
 			$mes_tr .= qq|<td>|;
 			if ($host{$mhost} & $bit) {
-				$mes_tr .= qq|›|;
+				$mes_tr .= qq|â—‹|;
 				$count++;
 			}
 			$mes_tr .= qq|</td>|;
@@ -1228,7 +1227,7 @@ sub admin_compare {
 
 	$mes .= qq|<table class="table1">|;
 	$mes .= qq|<tr>|;
-	$mes .= qq|<th>ƒG[ƒWƒFƒ“ƒg</th>|;
+	$mes .= qq|<th>ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆ</th>|;
 	for my $name (@comp) {
 		$mes .= qq|<th>$name</th>|;
 	}
@@ -1240,7 +1239,7 @@ sub admin_compare {
 		for my $name (@comp) {
 			$mes_tr .= qq|<td>|;
 			if ($agent{$magent} & $bit) {
-				$mes_tr .= qq|›|;
+				$mes_tr .= qq|â—‹|;
 				$count++;
 			}
 			$mes_tr .= qq|</td>|;
@@ -1254,10 +1253,10 @@ sub admin_compare {
 }
 
 #=================================================
-# “K“–mŠ¯ƒtƒ‰ƒOƒŠƒZƒbƒg
+# é©å½“å£«å®˜ãƒ•ãƒ©ã‚°ãƒªã‚»ãƒƒãƒˆ
 #=================================================
 sub migrate_reset {
-	opendir my $dh, "$userdir" or &error("Õ°»Ş°ÃŞ¨Ú¸ÄØ‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	opendir my $dh, "$userdir" or &error("ï¾•ï½°ï½»ï¾ï½°ï¾ƒï¾ï½¨ï¾šï½¸ï¾„ï¾˜ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $id = readdir $dh) {
 		next if $id =~ /\./;
 		next if $id =~ /backup/;
@@ -1268,21 +1267,21 @@ sub migrate_reset {
 
 }
 #=================================================
-# ‰ü‘¢ÊßÙÌßİÃ
+# æ”¹é€ ï¾Šï¾Ÿï¾™ï¾Œï¾Ÿï¾ï¾ƒ
 #=================================================
 sub admin_parupunte {
 	require "$datadir/parupunte.cgi";
 	&{$effects[2]};
-	$mes .= "<hr>‰ü‘¢ÊßÙÌßİÃ‚ğ‘Å‚¿‚Ü‚µ‚½<br>";
+	$mes .= "<hr>æ”¹é€ ï¾Šï¾Ÿï¾™ï¾Œï¾Ÿï¾ï¾ƒã‚’æ‰“ã¡ã¾ã—ãŸ<br>";
 }
 
 #=================================================
-# è†‚Ì‘—M—š—ğiƒvƒ‰ƒCƒoƒV[‚ğl—¶‚µA’N‚ª’N‚É‘—M‚µ‚½‚©‚¾‚¯‚ğƒƒMƒ“ƒO‚µ‚Ä‚¢‚éj
+# æ‰‹ç´™ã®é€ä¿¡å±¥æ­´ï¼ˆãƒ—ãƒ©ã‚¤ãƒã‚·ãƒ¼ã‚’è€ƒæ…®ã—ã€èª°ãŒèª°ã«é€ä¿¡ã—ãŸã‹ã ã‘ã‚’ãƒ­ã‚®ãƒ³ã‚°ã—ã¦ã„ã‚‹ï¼‰
 #=================================================
 sub admin_letter_log_check {
-	$mes .= qq|<table><tr><th>‘—MÒ</th><th>óMÒ</th><th>‘—M“ú</th></tr>\n|;
+	$mes .= qq|<table><tr><th>é€ä¿¡è€…</th><th>å—ä¿¡è€…</th><th>é€ä¿¡æ—¥æ™‚</th></tr>\n|;
 
-	open my $fh, "< $logdir/letter_log.cgi" or &error("$logdir/letter_log.cgiÌ§²Ù‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	open my $fh, "< $logdir/letter_log.cgi" or &error("$logdir/letter_log.cgiï¾Œï½§ï½²ï¾™ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $line = <$fh>) {
 		my($from_name, $to_name, $ltime) = split /<>/, $line;
 		my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime($ltime);
@@ -1297,12 +1296,12 @@ sub admin_letter_log_check {
 }
 
 #=================================================
-# —‘‚Ì›z‰»—š—ğ
+# åµã®å­µåŒ–å±¥æ­´
 #=================================================
 sub admin_incubation_log_check {
-	$mes .= qq|<table><tr><th>–¼‘O</th><th>—‘</th><th>Íß¯Ä</th><th>›z‰»“ú</th></tr>\n|;
+	$mes .= qq|<table><tr><th>åå‰</th><th>åµ</th><th>ï¾ï¾Ÿï½¯ï¾„</th><th>å­µåŒ–æ—¥æ™‚</th></tr>\n|;
 
-	open my $fh, "< $logdir/incubation_log.cgi" or &error("$logdir/incubation_log.cgiÌ§²Ù‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	open my $fh, "< $logdir/incubation_log.cgi" or &error("$logdir/incubation_log.cgiï¾Œï½§ï½²ï¾™ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $line = <$fh>) {
 		my($name, $egg, $pet, $ltime) = split /<>/, $line;
 		my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime($ltime);
@@ -1317,12 +1316,12 @@ sub admin_incubation_log_check {
 }
 
 #=================================================
-# ƒAƒCƒeƒ€‚Ìw“ü—š—ğ
+# ã‚¢ã‚¤ãƒ†ãƒ ã®è³¼å…¥å±¥æ­´
 #=================================================
 sub admin_shopping_log_check {
-	$mes .= qq|<table><tr><th>w“üÒ</th><th>Œo‰cÒ</th><th>±²ÃÑ</th><th>’l’i</th><th>w“ü“ú</th></tr>\n|;
+	$mes .= qq|<table><tr><th>è³¼å…¥è€…</th><th>çµŒå–¶è€…</th><th>ï½±ï½²ï¾ƒï¾‘</th><th>å€¤æ®µ</th><th>è³¼å…¥æ—¥æ™‚</th></tr>\n|;
 
-	open my $fh, "< $logdir/shopping_log.cgi" or &error("$logdir/shopping_log.cgiÌ§²Ù‚ªŠJ‚¯‚Ü‚¹‚ñ");
+	open my $fh, "< $logdir/shopping_log.cgi" or &error("$logdir/shopping_log.cgiï¾Œï½§ï½²ï¾™ãŒé–‹ã‘ã¾ã›ã‚“");
 	while (my $line = <$fh>) {
 		my($m_name, $y_name, $item, $price, $ltime) = split /<>/, $line;
 		my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime($ltime);
@@ -1337,7 +1336,7 @@ sub admin_shopping_log_check {
 }
 
 #=================================================
-# ‘qŒÉ‚Ì’†gŠm”F
+# å€‰åº«ã®ä¸­èº«ç¢ºèª
 #=================================================
 sub admin_get_depot_data {
 	my $pid = $in{id};
@@ -1345,7 +1344,7 @@ sub admin_get_depot_data {
 	my $count = 0;
 	my $mes_sub;
 	$mes .= qq|$in{name}<br>\n|;
-	open my $fh2, "< $userdir/$pid/depot.cgi" or &error("‘qŒÉÌ§²Ù‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½");
+	open my $fh2, "< $userdir/$pid/depot.cgi" or &error("å€‰åº«ï¾Œï½§ï½²ï¾™ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸ");
 	while (my $line = <$fh2>) {
 		$count++;
 		my($kind, $item_no, $item_c, $item_lv) = split /<>/, $line;
@@ -1353,19 +1352,19 @@ sub admin_get_depot_data {
 		$mes_sub .= &get_item_name($kind, $item_no, $item_c, $item_lv)."<br>";
 	}
 	close $fh2;
-	$mes .= "$countŒÂ<br>".$mes_sub;
+	$mes .= "$countå€‹<br>".$mes_sub;
 #	print qq|$</table>\n|;
 }
 
 #=================================================
-# ¤l‚Ì“X‚Ì”Ì”„—š—ğ
+# å•†äººã®åº—ã®è²©å£²å±¥æ­´
 #=================================================
 sub admin_get_akindo_data {
 	my $pid = $in{id};
 
 	$mes .= qq|$in{name}<br>\n|;
-	$mes .= qq|<table><tr><th>”Ì”„±²ÃÑ</th><th>w“üÒ</th><th>w“ü“ú</th></tr>\n|;
-	open my $fh2, "< $userdir/$pid/shop_sale_detail.cgi" or &error("¤l‚Ì“XÌ§²Ù‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½");
+	$mes .= qq|<table><tr><th>è²©å£²ï½±ï½²ï¾ƒï¾‘</th><th>è³¼å…¥è€…</th><th>è³¼å…¥æ—¥æ™‚</th></tr>\n|;
+	open my $fh2, "< $userdir/$pid/shop_sale_detail.cgi" or &error("å•†äººã®åº—ï¾Œï½§ï½²ï¾™ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸ");
 	while (my $line = <$fh2>) {
 
 		my($item, $y_name, $ltime) = split /<>/, $line;
@@ -1381,14 +1380,14 @@ sub admin_get_akindo_data {
 }
 
 #=================================================
-# ‹âs‚Ìæˆø—š—ğ
+# éŠ€è¡Œã®å–å¼•å±¥æ­´
 #=================================================
 sub admin_get_bank_log {
 	my $pid = $in{id};
 
 	$mes .= qq|$in{name}<br>\n|;
-	$mes .= qq|<table><tr><th>‹âs</th><th>‹àŠz</th><th>æˆø</th><th>æˆø“ú</th></tr>\n|;
-	open my $fh2, "< $userdir/$pid/shop_bank_log.cgi" or &error("‹âsÛ¸ŞÌ§²Ù‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½");
+	$mes .= qq|<table><tr><th>éŠ€è¡Œ</th><th>é‡‘é¡</th><th>å–å¼•</th><th>å–å¼•æ—¥æ™‚</th></tr>\n|;
+	open my $fh2, "< $userdir/$pid/shop_bank_log.cgi" or &error("éŠ€è¡Œï¾›ï½¸ï¾ï¾Œï½§ï½²ï¾™ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸ");
 	while (my $line = <$fh2>) {
 
 		my($y_name, $type, $money, $ltime) = split /<>/, $line;
